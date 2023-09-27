@@ -1,0 +1,18 @@
+log_dir = 'logs'
+
+[arch]
+B = 2  # Number of Bounding Boxes
+C = 20 # Number of Classes
+S = 5  # Number of Grid Slices
+
+[train]
+data_dir = 'data/train'   # Directory containing training images
+label_dir = 'data/labels' # Directory containing training labels
+batch_size = 16
+image_size = [448, 448]
+
+[val]
+data_dir = 'data/val'     # Directory containing validation images
+label_dir = 'data/labels' # Directory containing validation labels
+batch_size = 16
+image_size = [448, 448]
