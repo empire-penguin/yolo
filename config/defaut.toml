@@ -1,18 +1,235 @@
-log_dir = 'logs'
+log_dir = 'logs' # Log directory
 
-[arch]
-B = 2  # Number of Bounding Boxes
-C = 20 # Number of Classes
-S = 5  # Number of Grid Slices
+drop_out = 0.5        # Dropout rate
+batch_size = 64       # Batch size
+momentum = 0.9        # Momentum
+weight_decay = 0.0005 # Weight decay
 
-[train]
-data_dir = 'data/train'   # Directory containing training images
-label_dir = 'data/labels' # Directory containing training labels
-batch_size = 16
-image_size = [448, 448]
+[dataset]
+images_dir = 'dataset/VOCdevkit/VOC2012/JPEGImages'
+anno_dir = 'dataset/VOCdevkit/VOC2012/Annotations'
+sets_dir = 'dataset/VOCdevkit/VOC2012/ImageSets'
+seg_class_dir = 'dataset/VOCdevkit/VOC2012/SegmentationClass'
+seg_obj_dir = 'dataset/VOCdevkit/VOC2012/SegmentationObject'
 
-[val]
-data_dir = 'data/val'     # Directory containing validation images
-label_dir = 'data/labels' # Directory containing validation labels
-batch_size = 16
-image_size = [448, 448]
+[model]
+# First Section
+[[model.layers]]
+type = 'conv'
+name = 'conv1_1'
+kernel_size = 7
+filters = 64
+stride = 2
+activation = 'relu'
+
+[[model.layers]]
+type = 'maxpool'
+name = 'pool1'
+kernel_size = 2
+stride = 2
+
+# Second Section
+[[model.layers]]
+type = 'conv'
+name = 'conv2_1'
+kernel_size = 3
+filters = 192
+stride = 1
+
+[[model.layers]]
+type = 'maxpool'
+name = 'pool2'
+kernel_size = 2
+stride = 2
+
+# Third Section
+[[model.layers]]
+type = 'conv'
+name = 'conv3_1'
+kernel_size = 1
+filters = 128
+stride = 1
+
+[[model.layers]]
+type = 'conv'
+name = 'conv3_2'
+kernel_size = 3
+filters = 256
+stride = 1
+
+[[model.layers]]
+type = 'conv'
+name = 'conv3_3'
+kernel_size = 1
+filters = 256
+stride = 1
+
+[[model.layers]]
+type = 'conv'
+name = 'conv3_4'
+kernel_size = 3
+filters = 512
+stride = 1
+
+[[model.layers]]
+type = 'maxpool'
+name = 'pool3'
+kernel_size = 2
+stride = 2
+
+# Fourth Section
+[[model.layers]]
+type = 'conv'
+name = 'conv4_1'
+kernel_size = 1
+filters = 256
+stride = 1
+
+[[model.layers]]
+type = 'conv'
+name = 'conv4_2'
+kernel_size = 3
+filters = 512
+stride = 1
+
+[[model.layers]]
+type = 'conv'
+name = 'conv4_3'
+kernel_size = 1
+filters = 256
+stride = 1
+
+[[model.layers]]
+type = 'conv'
+name = 'conv4_4'
+kernel_size = 3
+filters = 512
+stride = 1
+
+[[model.layers]]
+type = 'conv'
+name = 'conv4_5'
+kernel_size = 1
+filters = 256
+stride = 1
+
+[[model.layers]]
+type = 'conv'
+name = 'conv4_6'
+kernel_size = 3
+filters = 512
+stride = 1
+
+[[model.layers]]
+type = 'conv'
+name = 'conv4_7'
+kernel_size = 1
+filters = 256
+stride = 1
+
+[[model.layers]]
+type = 'conv'
+name = 'conv4_8'
+kernel_size = 3
+filters = 512
+stride = 1
+
+[[model.layers]]
+type = 'conv'
+name = 'conv4_9'
+kernel_size = 1
+filters = 512
+stride = 1
+
+[[model.layers]]
+type = 'conv'
+name = 'conv4_10'
+kernel_size = 3
+filters = 1024
+stride = 1
+
+[[model.layers]]
+type = 'maxpool'
+name = 'pool4'
+kernel_size = 2
+stride = 2
+
+# Fifth Section
+[[model.layers]]
+type = 'conv'
+name = 'conv5_1'
+kernel_size = 1
+filters = 512
+stride = 1
+
+[[model.layers]]
+type = 'conv'
+name = 'conv5_2'
+kernel_size = 3
+filters = 1024
+stride = 1
+
+[[model.layers]]
+type = 'conv'
+name = 'conv5_3'
+kernel_size = 1
+filters = 512
+stride = 1
+
+[[model.layers]]
+type = 'conv'
+name = 'conv5_4'
+kernel_size = 3
+filters = 1024
+stride = 1
+
+[[model.layers]]
+type = 'conv'
+name = 'conv5_5'
+kernel_size = 3
+filters = 1024
+stride = 1
+
+[[model.layers]]
+type = 'conv'
+name = 'conv5_6'
+kernel_size = 3
+filters = 1024
+stride = 2
+
+# Sixth Section
+[[model.layers]]
+type = 'conv'
+name = 'conv6_1'
+kernel_size = 3
+filters = 1024
+stride = 1
+
+[[model.layers]]
+type = 'conv'
+name = 'conv6_2'
+kernel_size = 3
+filters = 1024
+stride = 1
+
+# Seventh Section
+[[model.layers]]
+type = 'fc'
+name = 'fc1'
+filters = 4096
+activation = 'relu'
+dropout = 0.5
+
+# Eighth Section
+[[model.layers]]
+type = 'fc'
+name = 'fc2'
+filters = 1470
+activation = 'linear'
+dropout = 0.0
+
+# Ninth Section
+[[model.layers]]
+type = 'reshape'
+name = 'reshape'
+shape = [7, 7, 30]
