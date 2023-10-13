@@ -1,15 +1,8 @@
 #!/usr/bin/env python3
 
-import toml
 import os
-
 from trainer import Trainer
-
-
-def parse(path):
-    with open(path, "r") as f:
-        data = toml.load(f)
-    return data
+from utils import parse
 
 
 def main(*args, **kwargs):
