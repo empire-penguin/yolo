@@ -6,10 +6,12 @@ class CulinaryModel(nn.Module):
     def __init__(self, config):
         super(CulinaryModel, self).__init__()
         self.config = config
-        self.layers = self._make_layers(self.config["model"])
+        self.layers = self._make_layers(self.config["model"]["layers"])
 
-    def _make_layer(layer_params):
-        print(layer_params)
-        
+    def _make_layers(self, layers_params):
+        for layer_p in layers_params:
+            # TODO: implement this
+            pass
+
     def forward(self, x):
-        pass
+        return torch.rand(7, 7, 30)
