@@ -1,0 +1,22 @@
+name: Yolo End to End Tests
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches:
+      - main
+  push:
+    branches:
+      - 'feature/**'
+
+jobs:
+  yolo_unit_tests:
+    runs-on: [self-hosted, server]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Run python unit tests
+        run: |
+          python3 -m venv venv
+          source venv/bin/activate
+          pip install -r requirements.txt
+          pytest

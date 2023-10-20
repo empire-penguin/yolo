@@ -10,7 +10,6 @@ class CulinaryModel(nn.Module):
 
     def _make_layers(self, layers_params):
         for layer_p in layers_params:
-            # TODO: implement this
             pass
 
     def forward(self, x):

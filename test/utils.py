@@ -5,8 +5,14 @@ import math
 
 import PIL.Image as Image
 
+import sys
+
+sys.path.append(".")
+
 from src.utils import open_toml
 from src.utils import save_image_buf
+from src.utils import draw_bbox_on_image
+from src.bbox import BoundingBox
 
 
 def get_red_channel(i, j):
@@ -23,10 +29,6 @@ def get_green_channel(i, j):
 
 def get_alpha_channel(i, j):
     return 0xFF
-
-
-def get_rgba_int(r, g, b, a):
-    return int(a % 256 << 24 | b % 256 << 16 | g % 256 << 8 | r % 256)
 
 
 def draw_box(x, y, w, h, c):
@@ -62,32 +64,41 @@ def get_pixel(i, j):
 class TestUtils(unittest.TestCase):
     def setUp(self):
         self.path = os.path.join(os.path.dirname(__file__), "../config/defaut.toml")
+        self.width = 375
+        self.height = 500
+        self.bbox1 = BoundingBox(
+            self.width / 2, self.height / 2, self.width / 2, self.height / 2, 0.1
+        )
+        self.bbox2 = BoundingBox(
+            self.width / 2 - self.width / 4 - self.width / 8,
+            self.height / 2,
+            self.width / 5,
+            self.height / 1.4,
+            0.9,
+        )
 
     def test_open_toml(self):
         data = open_toml(self.path)
         self.assertIsInstance(data, dict)
 
-    def test_save_image_buf(self):
-        image_buf = []
-        path = os.path.join(os.path.dirname(__file__), "../example.png")
-        with Image.open(path) as image:
-            WIDTH, HEIGHT = image.size
-            S_W = 7
-            S_H = 7
-            PIX_PER_CELL_X = WIDTH / S_W
-            PIX_PER_CELL_Y = HEIGHT / S_H
-            image_buf = image.getdata()
-            for i in range(S_W):
-                for j in range(S_H):
-                    x = i * PIX_PER_CELL_X
-                    y = j * PIX_PER_CELL_Y
-                    w = 0.1 * PIX_PER_CELL_X
-                    h = 0.4 * PIX_PER_CELL_Y
-                    c = 1.0
-                    draw_box(x, y, w, h, c)
+    # def test_draw_bbox_on_buff(self):
+    #     image_buf = np.zeros((self.width, self.height, 4), dtype=np.uint8)
+    #     image_buf = draw_bbox_on_image(
+    #         image_buf, [self.bbox1], size=(self.width, self.height)
+    #     )
+    #     image = Image.fromarray(image_buf, "RGBA")
+    #     # image = image.rotate(90)
+    #     image.save("test.png")
 
-        path = os.path.join(os.path.dirname(__file__), "../test.png")
-        save_image_buf(image_buf, path, size=(WIDTH, HEIGHT))
+    def test_draw_bbox_on_image(self):
+        with open(os.path.join(os.path.dirname(__file__), "../example.jpg"), "rb") as f:
+            image_buf = np.array(Image.open(f))
+            image_buf = draw_bbox_on_image(
+                image_buf,
+                [self.bbox1, self.bbox2],
+            )
+            image = Image.fromarray(image_buf, "RGB")
+            image.save("test.png")
 
 
 if __name__ == "__main__":
