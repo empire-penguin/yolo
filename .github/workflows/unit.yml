@@ -14,9 +14,10 @@ jobs:
     runs-on: [self-hosted, server]
     steps:
       - uses: actions/checkout@v3
-      - name: Run python unit tests
+      - name: Set up Python environment
         run: |
           python3 -m venv venv
           source venv/bin/activate
           pip install -r requirements.txt
-          pytest
+      - name: Run python unit tests
+        run: python -m unittest discover -s path/to/your/test/director
