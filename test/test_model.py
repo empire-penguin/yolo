@@ -14,8 +14,8 @@ class TestCulinaryModel(unittest.TestCase):
     def test_forward_pass(self):
         x = torch.rand(1, 3, 448, 448)
         y = self.model.forward(x)
-        self.assertEqual(y.shape, torch.Size([7,7,30]))
-        
+        self.assertEqual(y.shape, torch.Size([7, 7, 30]))
+
 
 if __name__ == "__main__":
     unittest.main()
