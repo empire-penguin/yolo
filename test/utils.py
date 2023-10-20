@@ -91,14 +91,16 @@ class TestUtils(unittest.TestCase):
     #     image.save("test.png")
 
     def test_draw_bbox_on_image(self):
-        with open(os.path.join(os.path.dirname(__file__), "../example.jpg"), "rb") as f:
+        with open(
+            os.path.join(os.path.dirname(__file__), "../images/example.jpg"), "rb"
+        ) as f:
             image_buf = np.array(Image.open(f))
             image_buf = draw_bbox_on_image(
                 image_buf,
                 [self.bbox1, self.bbox2],
             )
             image = Image.fromarray(image_buf, "RGB")
-            image.save("test.png")
+            image.save("../images/test.png")
 
 
 if __name__ == "__main__":
