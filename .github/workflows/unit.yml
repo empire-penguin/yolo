@@ -14,6 +14,9 @@ jobs:
     runs-on: [self-hosted, server]
     steps:
       - uses: actions/checkout@v3
+      - name: Install pytorch
+        run: |
+          pip install torch==1.8.1+cpu torchvision==0.9.1+cpu torchaudio==0.8.1 -f https://download.pytorch.org/whl/torch_stable.html
       - name: Set up Python environment
         run: |
           python3 -m venv venv
@@ -21,4 +24,4 @@ jobs:
           pip install -r requirements.txt
           pwd
       - name: Run python unit tests
-        run: venv/bin/python -m unittest discover -s ./test
+        run: venv/bin/python -m unittest discover -s test
