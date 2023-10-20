@@ -20,4 +20,4 @@ jobs:
           source venv/bin/activate
           pip install -r requirements.txt
       - name: Run python unit tests
-        run: python -m unittest discover -s path/to/your/test/director
+        run: venv/bin/python -m unittest discover -s test
