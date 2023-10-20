@@ -52,19 +52,14 @@ def draw_bbox_on_image(image_buf, bbox_list):
     for i in range(image_buf.shape[0]):
         for j in range(image_buf.shape[1]):
             for bbox in bbox_list:
-                print(
-                    (bbox.get_top_left()[0] - i) ** 2
-                    + (bbox.get_top_left()[1] - j) ** 2
-                    < 10**2
-                )
-                if bbox.contains(i, j):
+                if bbox.on_edge(i, j):
                     image_buf[i][j] = [255, 0, 0]
 
                 if (bbox.get_top_left()[0] - i) ** 2 + (
                     bbox.get_top_left()[1] - j
-                ) ** 2 < 10**2 or (bbox.get_bottom_right()[0] - i) ** 2 + (
+                ) ** 2 < 5**2 or (bbox.get_bottom_right()[0] - i) ** 2 + (
                     bbox.get_bottom_right()[1] - j
-                ) ** 2 < 10**2:
+                ) ** 2 < 5**2:
                     image_buf[i][j] = [0, 255, 0]
 
     return image_buf

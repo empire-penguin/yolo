@@ -1,4 +1,4 @@
-name: Yolo End to End Tests
+name: Yolo Unit Tests
 
 on:
   pull_request:

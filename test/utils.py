@@ -67,14 +67,14 @@ class TestUtils(unittest.TestCase):
         self.width = 375
         self.height = 500
         self.bbox1 = BoundingBox(
-            self.width / 2, self.height / 2, self.width / 2, self.height / 2, 0.1
+            self.width / 2, self.height / 2, self.width / 2, self.height / 2, 0.5
         )
         self.bbox2 = BoundingBox(
             self.width / 2 - self.width / 4 - self.width / 8,
             self.height / 2,
             self.width / 5,
-            self.height / 1.4,
-            0.9,
+            self.height / 6.5,
+            0.5,
         )
 
     def test_open_toml(self):

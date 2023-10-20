@@ -8,7 +8,7 @@ class BoundingBox:
         self.w = w
         self.h = h
         self.c = c
-        self.variance = 0.65
+        self.variance = 3.0
 
     def __str__(self):
         return f"({self.x}, {self.y}, {self.w}, {self.h}, {self.c})"
@@ -98,36 +98,13 @@ class BoundingBox:
         Returns:
             bool: True if this bounding box contains a point
         """
-        delta = self.c * self.variance / 2
-        inclsv_TL = (
-            self.get_top_left()[0] - delta,
-            self.get_top_left()[1] - delta,
-        )
-        inclsv_BR = (
-            self.get_bottom_right()[0] + delta,
-            self.get_bottom_right()[1] + delta,
-        )
-        exclsv_TL = (
-            self.get_top_left()[0] + delta,
-            self.get_top_left()[1] + delta,
-        )
-        exclsv_BR = (
-            self.get_bottom_right()[0] - delta,
-            self.get_bottom_right()[1] - delta,
-        )
+        delta = 0.5 * self.c * self.variance
+
         inclsv_bb = BoundingBox(
-            inclsv_TL[0] + self.w / 2 + delta,
-            inclsv_TL[1] + self.h / 2 + delta,
-            inclsv_BR[0] - inclsv_TL[0] - 2 * delta,
-            inclsv_BR[1] - inclsv_TL[1] - 2 * delta,
-            self.c,
+            self.x, self.y, self.w + 2 * delta, self.h + 2 * delta, self.c
         )
         exclsv_bb = BoundingBox(
-            exclsv_TL[0] + self.w / 2 - delta,
-            exclsv_TL[1] + self.h / 2 - delta,
-            exclsv_BR[0] - exclsv_TL[0] + 2 * delta,
-            exclsv_BR[1] - exclsv_TL[1] + 2 * delta,
-            self.c,
+            self.x, self.y, self.w - 4 * delta, self.h - 4 * delta, self.c
         )
         return inclsv_bb.contains(x, y) and not exclsv_bb.contains(x, y)
 
