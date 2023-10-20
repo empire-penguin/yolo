@@ -21,6 +21,9 @@ jobs:
           pip install -r requirements.txt
       - name: Install pytorch
         run: |
-          pip3 install torch==1.8.1+cpu torchvision==0.9.1+cpu torchaudio==0.8.1 -f https://download.pytorch.org/whl/torch_stable.html
+          source venv/bin/activate
+          pip install torch==1.8.1+cpu torchvision==0.9.1+cpu torchaudio==0.8.1 -f https://download.pytorch.org/whl/torch_stable.html
       - name: Run python unit tests
-        run: venv/bin/python -m unittest discover -s test
+        run:
+          source venv/bin/activate 
+          venv/bin/python -m unittest discover -s test
