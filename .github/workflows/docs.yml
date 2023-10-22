@@ -1,7 +1,6 @@
 on:
   # Runs on pushes targeting the default branch
-  pull_request:
-    types: [opened, synchronize, reopened]
+  push:
     branches:
       - main
 
