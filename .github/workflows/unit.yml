@@ -1,34 +1,34 @@
-# name: Yolo Unit Tests
+name: Yolo Unit Tests
 
-# on:
-#   pull_request:
-#     types: [opened, synchronize, reopened]
-#     branches:
-#       - main
-#   push:
-#     branches:
-#       - 'feature/**'
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches:
+      - main
+  push:
+    branches:
+      - 'feature/**'
 
-# jobs:
-#   yolo_unit_tests:
-#     runs-on: [self-hosted, server]
-#     steps:
-#       - uses: actions/checkout@v3
-#       - name: Set up Python environment
-#         run: |
-#           python3 -m venv venv
-#           source venv/bin/activate
-#           pip install -r requirements.txt
-#       - name: Install pytorch
-#         run: |
-#           source venv/bin/activate
-#           pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
-#       - name: Install yolo
-#         run: |
-#           source venv/bin/activate 
-#           pip3 install .
-#       - name: Run unit tests
-#         run: |
-#           source venv/bin/activate
-#           pytest
+jobs:
+  yolo_unit_tests:
+    runs-on: [self-hosted, server]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python environment
+        run: |
+          python3 -m venv venv
+          source venv/bin/activate
+          pip install -r requirements.txt
+      - name: Install pytorch
+        run: |
+          source venv/bin/activate
+          pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
+      - name: Install yolo
+        run: |
+          source venv/bin/activate 
+          pip3 install .
+      - name: Run unit tests
+        run: |
+          source venv/bin/activate
+          pytest
           
