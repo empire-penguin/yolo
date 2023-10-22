@@ -2,7 +2,7 @@ import toml
 import PIL.Image as Image
 import math
 import numpy as np
-from gridcell import GridCell
+from yolo.gridcell import GridCell
 import cv2
 
 

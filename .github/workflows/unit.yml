@@ -23,7 +23,12 @@ jobs:
         run: |
           source venv/bin/activate
           pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
-      - name: Run python unit tests
+      - name: Install yolo
         run: |
           source venv/bin/activate 
+          pip3 install .
+      - name: Run unit tests
+        run: |
+          source venv/bin/activate
+          pytest
           
