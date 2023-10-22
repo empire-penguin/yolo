@@ -1,6 +1,7 @@
-numpy
 matplotlib
-Pillow
-toml
-pytest
+numpy
 opencv-python
+Pillow
+pytest
+sphinx
+toml

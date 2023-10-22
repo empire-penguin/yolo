@@ -1,5 +1,11 @@
 from setuptools import setup, find_packages
 
+with open("requirements.txt") as f:
+    dep_list = f.read().splitlines()
+
+with open("README.md", "r") as f:
+    long_description = f.read()
+
 setup(
     name="yolo",
     version="0.1.0",
@@ -8,14 +14,7 @@ setup(
     author_email="gsroberts@ucsd.edu",
     url="https://github.com/empire-penguin/yolo",
     packages=find_packages(),
-    install_requires=[
-        "numpy",
-        "matplotlib",
-        "Pillow",
-        "toml",
-        "pytest",
-        "opencv-python",
-    ],
+    install_requires=dep_list,
     classifiers=[
         "Development Status :: 3 - Alpha",
         "Intended Audience :: Developers",
@@ -26,4 +25,7 @@ setup(
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
     ],
+    long_description=long_description,
+    long_description_content_type="text/markdown",
+    license="MIT",
 )
