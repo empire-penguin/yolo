@@ -8,7 +8,6 @@ class BoundingBox:
         self.w = w
         self.h = h
         self.c = c
-        self.variance = 3.0
 
     def __str__(self):
         return f"({self.x}, {self.y}, {self.w}, {self.h}, {self.c})"
@@ -31,16 +30,16 @@ class BoundingBox:
     def get_bottom_right(self):
         return (self.x + self.w / 2, self.y + self.h / 2)
 
-    def get_cntr(self):
+    def get_center(self):
         return (self.x, self.y)
 
-    def get_w(self):
+    def get_width(self):
         return self.w
 
-    def get_h(self):
+    def get_height(self):
         return self.h
 
-    def get_conf(self):
+    def get_confidence(self):
         return self.c
 
     def get_xmin(self):
@@ -65,10 +64,10 @@ class BoundingBox:
             bool: True if this bounding box intersects another bounding box
         """
         return (
-            self.get_top_left()[0] < other.get_bottom_right()[0]
-            and self.get_top_left()[1] < other.get_bottom_right()[1]
-            and self.get_bottom_right()[0] > other.get_top_left()[0]
-            and self.get_bottom_right()[1] > other.get_top_left()[1]
+            self.get_xmin() <= other.get_xmax()
+            and self.get_xmax() >= other.get_xmin()
+            and self.get_ymin() <= other.get_ymax()
+            and self.get_ymax() >= other.get_ymin()
         )
 
     def contains(self, x, y):
@@ -88,7 +87,7 @@ class BoundingBox:
             and self.get_bottom_right()[1] > y
         )
 
-    def on_edge(self, x, y):
+    def on_edge(self, x, y, delta):
         """returns True if these pairs of x, y coordinates are on the edge of this bounding box
 
         Args:
@@ -98,14 +97,8 @@ class BoundingBox:
         Returns:
             bool: True if this bounding box contains a point
         """
-        delta = 0.5 * self.c * self.variance
-
-        inclsv_bb = BoundingBox(
-            self.x, self.y, self.w + 2 * delta, self.h + 2 * delta, self.c
-        )
-        exclsv_bb = BoundingBox(
-            self.x, self.y, self.w - 4 * delta, self.h - 4 * delta, self.c
-        )
+        inclsv_bb = BoundingBox(self.x, self.y, self.w + delta, self.h + delta, self.c)
+        exclsv_bb = BoundingBox(self.x, self.y, self.w - delta, self.h - delta, self.c)
         return inclsv_bb.contains(x, y) and not exclsv_bb.contains(x, y)
 
     def get_area(self):
@@ -121,11 +114,11 @@ class BoundingBox:
             BoundingBox: the union of this bounding box and another bounding box
         """
         if self.intersects(other):
-            return self.get_area() + other.get_area() - self.intrsect_area(other)
+            return self.get_area() + other.get_area() - self.int_area(other)
         else:
             return self.get_area() + other.get_area()
 
-    def intrsect_area(self, other: "BoundingBox"):
+    def int_area(self, other: "BoundingBox"):
         """returns the intersection of this bounding box and another bounding box
 
         Args:
@@ -156,4 +149,4 @@ class BoundingBox:
         Returns:
             float: the intersection over union of this bounding box and another bounding box
         """
-        return self.intrsect_area(other) / self.union_area(other)
+        return self.int_area(other) / self.union_area(other)

@@ -44,9 +44,13 @@ class TestBoundingBox(unittest.TestCase):
         self.assertEqual((self.bbox2.union_area(self.bbox1)), 2 + 2 - 1 / 4)
 
     def test_get_intersection_area(self):
-        self.assertEqual(self.bbox1.intrsect_area(self.bbox2), 1 / 4)
-        self.assertEqual(self.bbox2.intrsect_area(self.bbox1), 1 / 4)
+        self.assertEqual(self.bbox1.int_area(self.bbox2), 1 / 4)
+        self.assertEqual(self.bbox2.int_area(self.bbox1), 1 / 4)
 
     def test_get_iou(self):
         self.assertEqual(self.bbox1.iou(self.bbox2), 1 / 15)
         self.assertEqual(self.bbox2.iou(self.bbox1), 1 / 15)
+
+
+if __name__ == "__main__":
+    unittest.main()
