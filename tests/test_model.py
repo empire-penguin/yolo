@@ -1,8 +1,8 @@
 import unittest
 import os
 import torch
-from src.model import CulinaryModel
-from src.utils import open_toml
+from yolo.model import CulinaryModel
+from yolo.utils import open_toml
 
 
 class TestCulinaryModel(unittest.TestCase):

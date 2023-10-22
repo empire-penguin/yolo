@@ -9,13 +9,13 @@ import sys
 
 sys.path.append(".")
 
-from src.utils import (
+from yolo.utils import (
     open_toml,
     draw_bbox_on_image,
     generate_grid_cells,
     draw_grid_on_image,
 )
-from src.bbox import BoundingBox
+from yolo.bbox import BoundingBox
 
 
 class TestUtils(unittest.TestCase):

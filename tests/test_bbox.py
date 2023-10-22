@@ -1,6 +1,6 @@
 import unittest
 
-from src.bbox import BoundingBox
+from yolo.bbox import BoundingBox
 
 
 class TestBoundingBox(unittest.TestCase):
