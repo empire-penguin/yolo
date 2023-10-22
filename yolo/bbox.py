@@ -2,7 +2,29 @@ import math
 
 
 class BoundingBox:
+    """Bounding box around an object in an image"""
+
     def __init__(self, x, y, w, h, c):
+        """Constructor for a bounding box
+
+        :param x: x coordinate of center of bounding box
+        :type x: float
+
+        :param y: y coordinate of center of bounding box
+        :type y: float
+
+        :param w: width of bounding box
+        :type w: float
+
+        :param h: height of bounding box
+        :type h: float
+
+        :param c: confidence of bounding box (will be represented by boldness)
+        :type c: float
+
+        :returns: instance of the BoundingBox class
+        :rtype: :class:`BoundingBox`
+        """
         self.x = x
         self.y = y
         self.w = w
@@ -25,43 +47,87 @@ class BoundingBox:
         )
 
     def get_top_left(self):
+        """
+        :returns: top left corner of the bounding box
+        :rtype: tuple (float, float)
+        """
         return (self.x - self.w / 2, self.y - self.h / 2)
 
     def get_bottom_right(self):
+        """
+        :returns: bottom right corner of the bounding box
+        :rtype: tuple (float, float)
+        """
         return (self.x + self.w / 2, self.y + self.h / 2)
 
     def get_center(self):
+        """
+        :returns: center of the bounding box
+        :rtype: tuple (float, float)
+        """
         return (self.x, self.y)
 
     def get_width(self):
+        """
+        :returns: width of the bounding box
+        :rtype: float
+        """
         return self.w
 
     def get_height(self):
+        """
+        :returns: height of the bounding box
+        :rtype: float
+        """
         return self.h
 
     def get_confidence(self):
+        """
+        :returns: confidence of the bounding box
+        :rtype: float
+        """
         return self.c
 
+    def get_area(self):
+        """
+        :returns: area of the bounding box
+        :rtype: float
+        """
+        return self.w * self.h
+
     def get_xmin(self):
+        """
+        :returns: x coordinate of top left corner of the bounding box
+        :rtype: float
+        """
         return self.get_top_left()[0]
 
     def get_ymin(self):
+        """
+        :returns: y coordinate of top left corner of the bounding box
+        :rtype: float
+        """
         return self.get_top_left()[1]
 
     def get_xmax(self):
+        """
+        :returns: x coordinate of bottom right corner of the bounding box
+        :rtype: float
+        """
         return self.get_bottom_right()[0]
 
     def get_ymax(self):
+        """
+        :returns: y coordinate of bottom right corner of the bounding box
+        :rtype: float
+        """
         return self.get_bottom_right()[1]
 
     def intersects(self, other: "BoundingBox"):
-        """returns True if this bounding box intersects another bounding box
+        """Tests if this bounding box intersects another bounding box
 
-        Args:
-            other (BoundingBox): another bounding box
-
-        Returns:
-            bool: True if this bounding box intersects another bounding box
+        :returns: True if this bounding box intersects another bounding box
+        :rtype: bool
         """
         return (
             self.get_xmin() <= other.get_xmax()
@@ -71,14 +137,10 @@ class BoundingBox:
         )
 
     def contains(self, x, y):
-        """returns True if this bounding box contains a point
+        """Tests if this bounding box contains a given (x,y) point
 
-        Args:
-            x (float): x coordinate of point
-            y (float): y coordinate of point
-
-        Returns:
-            bool: True if this bounding box contains a point
+        :returns: True if this bounding box contains a point
+        :rtype: bool
         """
         return (
             self.get_top_left()[0] < x
@@ -88,30 +150,21 @@ class BoundingBox:
         )
 
     def on_edge(self, x, y, delta):
-        """returns True if these pairs of x, y coordinates are on the edge of this bounding box
+        """Tests if a given (x,y) point is on the edge of this bounding box
 
-        Args:
-            x (float): x coordinate of point
-            y (float): y coordinate of point
-
-        Returns:
-            bool: True if this bounding box contains a point
+        :returns: True if a given (x,y) point is on the edge of this bounding box
+        :rtype: bool
         """
         inclsv_bb = BoundingBox(self.x, self.y, self.w + delta, self.h + delta, self.c)
         exclsv_bb = BoundingBox(self.x, self.y, self.w - delta, self.h - delta, self.c)
         return inclsv_bb.contains(x, y) and not exclsv_bb.contains(x, y)
 
-    def get_area(self):
-        return self.w * self.h
-
     def union_area(self, other: "BoundingBox"):
-        """returns the union of this bounding box and another bounding box
+        """Performs the union of this bounding box and another bounding box
+        and returns the area of the union
 
-        Args:
-            other (BoundingBox): another bounding box
-
-        Returns:
-            BoundingBox: the union of this bounding box and another bounding box
+        :returns: the union of this bounding box and another bounding box
+        :rtype: float
         """
         if self.intersects(other):
             return self.get_area() + other.get_area() - self.int_area(other)
@@ -119,13 +172,11 @@ class BoundingBox:
             return self.get_area() + other.get_area()
 
     def int_area(self, other: "BoundingBox"):
-        """returns the intersection of this bounding box and another bounding box
+        """Performs the intersection of this bounding box and another bounding box
+        and returns the area of the intersection
 
-        Args:
-            other (BoundingBox): another bounding box
-
-        Returns:
-            BoundingBox: the intersection of this bounding box and another bounding box
+        :returns: the intersection of this bounding box and another bounding box
+        :rtype: float
         """
         if self.intersects(other):
             top_left = (
@@ -141,12 +192,9 @@ class BoundingBox:
             return 0.0
 
     def iou(self, other: "BoundingBox"):
-        """returns the intersection over union of this bounding box and another bounding box
+        """Calculates the intersection over union of this bounding box and another bounding box
 
-        Args:
-            other (BoundingBox): another bounding box
-
-        Returns:
-            float: the intersection over union of this bounding box and another bounding box
+        :returns: intersection over union of this bounding box and another bounding box
+        :rtype: float
         """
         return self.int_area(other) / self.union_area(other)
