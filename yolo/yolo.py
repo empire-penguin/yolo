@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 
 import os
-from trainer import Trainer
-from utils import open_toml
+from yolo.trainer import Trainer
+from yolo.utils import open_toml
 
 
 def main(*args, **kwargs):
