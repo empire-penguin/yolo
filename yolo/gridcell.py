@@ -2,6 +2,9 @@ from yolo.bbox import BoundingBox
 
 
 class GridCell:
+    """A section of an input image that is responsible for detecting objects.
+    and generating bounding boxes for them."""
+
     def __init__(self, width, height, i, j):
         self.index = (i, j)
         self.width = width
@@ -15,9 +18,20 @@ class GridCell:
         return self.__str__()
 
     def add_bbox(self, bbox):
+        """Make this grid cell responsible for the given bounding box.
+
+        :param bbox: BoundingBox
+
+        :return: None
+        """
         self.bbox_list.append(bbox)
 
     def get_bbox_list(self):
+        """Return the list of bounding boxes for this grid cell.
+
+        :return: list of BoundingBox
+        :rtype: list[:class:`BoundingBox`]
+        """
         if self.index == (0, 0):
             return [
                 BoundingBox(143, 178, 48, 124, 0.1),
