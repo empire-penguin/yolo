@@ -3,5 +3,4 @@ numpy
 opencv-python
 Pillow
 pytest
-sphinx
 toml

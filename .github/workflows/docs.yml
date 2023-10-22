@@ -12,9 +12,14 @@ jobs:
     runs-on: [self-hosted, server]
     steps:
       - uses: actions/checkout@v3
-      - name: Install dependencies
+      - name: Set up Python environment
         run: |
-          pip install sphinx sphinx_rtd_theme
+          python3 -m venv venv
+          source venv/bin/activate
+          pip install -r requirements.txt
+      - name: Install docs dependencies
+        run: |
+          source venv/bin/activate
           pip install -r ./docs/requirements.txt
       - name: Sphinx build
         run: |
