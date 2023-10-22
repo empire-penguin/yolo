@@ -2,6 +2,8 @@ import toml
 import PIL.Image as Image
 import math
 import numpy as np
+from src.gridcell import GridCell
+import cv2
 
 
 def open_toml(path):
@@ -49,22 +51,86 @@ def draw_bbox_on_image(image_buf, bbox_list):
     Returns:
         numpy.ndarray: Modified image buffer as a NumPy array.
     """
-    for i in range(image_buf.shape[0]):
-        for j in range(image_buf.shape[1]):
-            for bbox in bbox_list:
-                print(
-                    (bbox.get_top_left()[0] - i) ** 2
-                    + (bbox.get_top_left()[1] - j) ** 2
-                    < 10**2
-                )
-                if bbox.contains(i, j):
-                    image_buf[i][j] = [255, 0, 0]
 
-                if (bbox.get_top_left()[0] - i) ** 2 + (
-                    bbox.get_top_left()[1] - j
-                ) ** 2 < 10**2 or (bbox.get_bottom_right()[0] - i) ** 2 + (
-                    bbox.get_bottom_right()[1] - j
-                ) ** 2 < 10**2:
-                    image_buf[i][j] = [0, 255, 0]
+    for i in range(image_buf.shape[1]):
+        for j in range(image_buf.shape[0]):
+            for bbox in bbox_list:
+                delta = math.floor(
+                    0.25 * (1 - math.exp(-abs(bbox.c))) * math.log(bbox.w * bbox.h) ** 2
+                )
+                if bbox.on_edge(i, j, delta):
+                    image_buf[j][i] = [255, 0, 255]
+
+                if (
+                    math.floor(bbox.get_top_left()[0] - i) ** 2
+                    + math.floor(bbox.get_top_left()[1] - j) ** 2
+                    < 1**2
+                    or math.floor(bbox.get_bottom_right()[0] - i) ** 2
+                    + math.floor(bbox.get_bottom_right()[1] - j) ** 2
+                    < 1**2
+                    or math.floor(bbox.get_center()[0] - i) ** 2
+                    + math.floor(bbox.get_center()[1] - j) ** 2
+                    < 1**2
+                ):
+                    image_buf[j][i] = [0, 255, 255]
+
+    return image_buf
+
+
+def generate_grid_cells(image_size, grid_size):
+    """Generates grid cells for an image.
+
+    Args:
+        image_size (tuple): Size of image.
+        grid_size (tuple): Size of grid.
+
+    Returns:
+        list: List of grid cells.
+    """
+    grid_cells = np.empty(grid_size, dtype=GridCell)
+
+    delta_w = image_size[0] // grid_size[0]
+    delta_h = image_size[1] // grid_size[1]
+
+    # Add extra pixels to last grid cells if
+    # image size dimention is not divisible by grid size
+    extra_w = image_size[0] % grid_size[0]
+    extra_h = image_size[1] % grid_size[1]
+
+    for i in range(grid_size[0]):
+        for j in range(grid_size[1]):
+            w = delta_w
+            h = delta_h
+            if i == grid_size[0] - 1:
+                w = delta_w + extra_w
+            if j == grid_size[1] - 1:
+                h = delta_h + extra_h
+            cell = GridCell(w, h, i, j)
+            grid_cells[i][j] = cell
+
+    return grid_cells
+
+
+def draw_grid_on_image(image_buf, grid_cells: np.ndarray):
+    """Draws grid cells on an image buffer.
+
+    Args:
+        image_buf (numpy.ndarray): Image buffer as a NumPy array.
+        grid_cells (list): List of grid cells.
+
+    Returns:
+        numpy.ndarray: Modified image buffer as a NumPy array.
+    """
+    for i in range(grid_cells.shape[0]):
+        for j in range(grid_cells.shape[1]):
+            cell = grid_cells[i][j]
+            print(cell)
+            print(i * cell.width, j * cell.height)
+            image_buf[:, i * cell.width] = [127, 127, 127]
+            image_buf[j * cell.height, :] = [127, 127, 127]
+            image_buf[:, i * cell.width] = [127, 127, 127]
+            image_buf[j * cell.height, :] = [127, 127, 127]
+
+            image_buf = draw_bbox_on_image(image_buf, grid_cells[i][j].get_bbox_list())
 
     return image_buf

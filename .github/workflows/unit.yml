@@ -1,4 +1,4 @@
-name: Yolo End to End Tests
+name: Yolo Unit Tests
 
 on:
   pull_request:
@@ -14,9 +14,16 @@ jobs:
     runs-on: [self-hosted, server]
     steps:
       - uses: actions/checkout@v3
-      - name: Run python unit tests
+      - name: Set up Python environment
         run: |
           python3 -m venv venv
           source venv/bin/activate
           pip install -r requirements.txt
-          pytest
+      - name: Install pytorch
+        run: |
+          source venv/bin/activate
+          pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
+      - name: Run python unit tests
+        run: |
+          source venv/bin/activate 
+          
