@@ -6,7 +6,7 @@ import torch.optim as optim
 import torch.nn.functional as F
 
 # from dataset import CulinaryDataset
-from model import CulinaryModel
+from yolo.model import CulinaryModel
 
 from torch.utils.data import DataLoader
 from torch.utils.tensorboard import SummaryWriter

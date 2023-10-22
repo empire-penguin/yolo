@@ -12,4 +12,4 @@ gridcell
    :header-rows: 0
 
    * - :class:`gridcell.GridCell`
-     - The model_sdr class is used to model the SDR.
+     - The base class for all grid cells.
