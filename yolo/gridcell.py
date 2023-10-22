@@ -1,4 +1,4 @@
-from bbox import BoundingBox
+from yolo.bbox import BoundingBox
 
 
 class GridCell:

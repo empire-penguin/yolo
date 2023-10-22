@@ -14,6 +14,7 @@ setup(
         "Pillow",
         "toml",
         "pytest",
+        "opencv-python",
     ],
     classifiers=[
         "Development Status :: 3 - Alpha",
