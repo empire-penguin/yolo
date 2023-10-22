@@ -12,7 +12,10 @@ jobs:
     runs-on: [self-hosted, server]
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-python@v2
+      - uses: actions/setup-python@v3
+        with:
+            python-version: '3.13.0-alpha.1'
+            architecture: 'arm64'
       - name: Install dependencies
         run: |
           pip install sphinx sphinx_rtd_theme
