@@ -1,37 +1,25 @@
 Modules
 =======
 
-.. _yolo:
+.. currentmodule:: yolo
 
-yolo
-------
+.. _bbox:
 
-.. automodule:: yolo.bbox
+.. automodule:: bbox
    :members:
    :undoc-members:
    :show-inheritance:
 
-.. automodule:: yolo.dataset
+.. _gridcell:
+
+.. automodule:: gridcell
    :members:
    :undoc-members:
    :show-inheritance:
 
-.. automodule:: yolo.gridcell
-   :members:
-   :undoc-members:
-   :show-inheritance:
+.. _utils:
 
-.. automodule:: yolo.model
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-.. automodule:: yolo.trainer
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-.. automodule:: yolo.utils
+.. automodule:: utils
    :members:
    :undoc-members:
    :show-inheritance:
