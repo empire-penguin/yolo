@@ -4,7 +4,7 @@
    contain the root `toctree` directive.
 
 Yolo for Culinary : A Deep Learning Approach
-================================
+============================================
 
 .. toctree::
    :maxdepth: 2
@@ -12,6 +12,14 @@ Yolo for Culinary : A Deep Learning Approach
 
 My implementation of yolo algorithm to be later used for culinary 
 computer vision tasks.
+
+YOLO Architecture from `paper <https://arxiv.org/abs/1506.02640>`_
+-------------------------------------------------------------------
+
+.. image:: images/input_output.png
+   :align: center
+
+
 
 Folder Structure
 ----------------

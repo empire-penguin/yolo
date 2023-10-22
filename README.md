@@ -1,5 +1,9 @@
 # Yolo for Culinary
 
+## API Documentation
+
+[empire-penguin.github.io/yolo](https://empire-penguin.github.io/yolo/)
+
 ## Installation Instructions
 
 ### Clone Repo
