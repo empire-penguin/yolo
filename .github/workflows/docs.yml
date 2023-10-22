@@ -31,11 +31,25 @@ jobs:
         uses: actions/checkout@v3
       - name: Setup Pages
         uses: actions/configure-pages@v3
+      - name: Setup Python environment
+        run: |
+          python3 -m venv venv
+          source venv/bin/activate
+          pip install -r requirements.txt
+      - name: Install docs dependencies
+        run: |
+          source venv/bin/activate
+          pip install -r ./docs/requirements.txt
+      - name: Sphinx build
+        run: |
+          source venv/bin/activate
+          sphinx-build ./docs/source ./docs/_build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
         with:
-          # Upload entire repository
-          path: '.'
+          path: './docs/_build'
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v2
+
+
