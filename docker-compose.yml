@@ -1,0 +1,40 @@
+version: "3.9"
+services:
+  pytorch:
+    build:
+      context: .
+      dockerfile: pytorch-prod.dockerfile
+
+    image: nvcr.io/nvidia/pytorch:23.06-py3
+    container_name: pytorch-prod
+    shm_size: '2048m'
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [ gpu ]
+
+    working_dir: "/root/yolo"
+    command: [ "tail", "-f", "/dev/null" ]
+
+  pytorch-devel:
+    build:
+      context: .
+      dockerfile: pytorch-devel.dockerfile
+
+    image: nvcr.io/nvidia/pytorch:23.06-py3
+    container_name: pytorch-devel
+    shm_size: '2048m'
+    volumes:
+      - ".:/root/testDir:rw"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [ gpu ]
+
+    working_dir: "/root/testDir"
