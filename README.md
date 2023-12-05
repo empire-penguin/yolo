@@ -4,6 +4,13 @@
 
 [empire-penguin.github.io/yolo](https://empire-penguin.github.io/yolo/)
 
+## Build Documentation
+
+```bash
+cd docs
+make html
+```
+
 ## Installation Instructions
 
 ### Clone Repo
