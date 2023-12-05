@@ -6,7 +6,8 @@ from yolo.gridcell import GridCell
 
 
 class Utils:
-    def open_toml(self, path):
+    @staticmethod
+    def open_toml(path):
         """Returns a dict with the contents of the toml file
 
         :returns: a dict from a toml file
@@ -16,7 +17,8 @@ class Utils:
             data = toml.load(f)
         return data
 
-    def save_image_buf(self, image_buf, path, size=(448, 448, 3)):
+    @staticmethod
+    def save_image_buf(image_buf, path, size=(448, 448, 3)):
         """saves an image buffer to a file
 
         :param image_buf: image buffer as a numpy array
@@ -33,10 +35,12 @@ class Utils:
         image.putdata(image_buf)
         image.save(path)
 
-    def get_rgba_int(self, r, g, b, a):
+    @staticmethod
+    def get_rgba_int(r, g, b, a):
         return int(a % 256 << 24 | b % 256 << 16 | g % 256 << 8 | r % 256)
 
-    def draw_bbox_on_image(self, image_buf, bbox_list):
+    @staticmethod
+    def draw_bbox_on_image(image_buf, bbox_list):
         """Draws bounding boxes on an image buffer.
 
         :param image_buf: image buffer as a numpy array
@@ -74,7 +78,8 @@ class Utils:
 
         return image_buf
 
-    def generate_grid_cells(self, image_size, grid_size):
+    @staticmethod
+    def generate_grid_cells(image_size, grid_size):
         """Generates grid cells for an image.
 
         :param image_size: size of the image
@@ -108,7 +113,8 @@ class Utils:
 
         return grid_cells
 
-    def draw_grid_on_image(self, image_buf, grid_cells):
+    @staticmethod
+    def draw_grid_on_image(image_buf, grid_cells):
         """Draws grid cells on an image buffer.
 
         :param image_buf: image buffer as a numpy array
@@ -129,8 +135,7 @@ class Utils:
                 image_buf[:, i * cell.width] = [127, 127, 127]
                 image_buf[j * cell.height, :] = [127, 127, 127]
 
-                image_buf = self.draw_bbox_on_image(
-                    image_buf, grid_cells[i][j].get_bbox_list()
-                )
+                image_buf = Utils.draw_bbox_on_image(image_buf, grid_cells[i][j].get_bbox_list())
+                        
 
         return image_buf

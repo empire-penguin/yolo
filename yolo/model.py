@@ -7,4 +7,3 @@ class Yolo(nn.Module):
     def __init__(self, config):
         super(Yolo, self).__init__()
         self.config = config
-        

@@ -59,6 +59,14 @@ wget -P dataset http://host.robots.ox.ac.uk/pascal/VOC/voc2012/VOCtrainval_11-Ma
 tar -xvf VOCtrainval_11-May-2012.tar
 ```
 
+## Usage
+
+### Run unit tests
+
+```bash
+python3 -m unittest
+```
+
 this will download the VOCdevkit used by yolo to train and find the features for the decision making process
 edict.py
 

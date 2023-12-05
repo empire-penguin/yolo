@@ -1,6 +1,5 @@
 from yolo.bbox import BoundingBox
 
-
 class GridCell:
     """A section of an input image that is responsible for detecting objects.
     and generating bounding boxes for them."""
