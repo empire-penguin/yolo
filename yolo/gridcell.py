@@ -31,11 +31,21 @@ class GridCell:
         :return: list of BoundingBox
         :rtype: list[:class:`BoundingBox`]
         """
-        if self.index == (0, 0):
+        if self.index == (1, 0):
+            return [
+                BoundingBox(100, 47, 167, 65, 0.1)
+            ]
+        elif self.index == (0, 3):
+            return [
+                BoundingBox(62, 178, 48, 124, 0.1),
+            ]
+        elif self.index == (2, 3):
             return [
                 BoundingBox(143, 178, 48, 124, 0.1),
-                BoundingBox(338, 236, 297, 241, 0.1),
-                BoundingBox(62, 178, 48, 124, 0.1),
-                BoundingBox(100, 47, 167, 65, 0.1),
             ]
-        return self.bbox_list
+        elif self.index == (4, 4):
+            return [
+                BoundingBox(338, 236, 297, 241, 0.1),
+            ]
+        else:
+            return []
