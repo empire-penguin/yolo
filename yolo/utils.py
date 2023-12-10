@@ -128,8 +128,6 @@ class Utils:
         for i in range(grid_cells.shape[0]):
             for j in range(grid_cells.shape[1]):
                 cell = grid_cells[i][j]
-                print(cell)
-                print(i * cell.width, j * cell.height)
                 image_buf[:, i * cell.width] = [127, 127, 127]
                 image_buf[j * cell.height, :] = [127, 127, 127]
                 image_buf[:, i * cell.width] = [127, 127, 127]
